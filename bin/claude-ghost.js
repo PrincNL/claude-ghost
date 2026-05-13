@@ -30,9 +30,9 @@ const ENTER_LF = '\n';
 const BACKSPACE = '\x7f';
 const BACKSPACE_ALT = '\b';
 
-// Toggle keys: defaults are Shift+Tab and F12. Override with env var
-// CLAUDE_GHOST_TOGGLE_KEYS, comma-separated hex strings, e.g. "1b5b5a,1b5b32347e"
-const DEFAULT_TOGGLES = [SHIFT_TAB, F12];
+// Toggle key: F12. Override with env var CLAUDE_GHOST_TOGGLE_KEYS,
+// comma-separated hex strings, e.g. "1b5b32347e,1b5b5a"
+const DEFAULT_TOGGLES = [F12];
 const TOGGLE_KEYS = (() => {
   const raw = process.env.CLAUDE_GHOST_TOGGLE_KEYS;
   if (!raw) return DEFAULT_TOGGLES;
