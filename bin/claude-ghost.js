@@ -156,12 +156,16 @@ function toggleMode() {
     }
   } else {
     mode = 'shell';
-    // Cancel any half-typed prompt; the transcript already ends at a `> `
-    // (the prompt before the user started typing this aborted line), so on
-    // re-entry it will look like the chat is waiting for input.
+    // Cancel any half-typed prompt.
     aiBuffer = '';
-    process.stdout.write('\r\n');
-    // Nudge PowerShell to redraw its prompt
+    // Killswitch: wipe scrollback + visible screen + home the cursor so no
+    // trace of the AI conversation remains on-screen. Transcript stays in
+    // memory and is replayed on the next toggle into AI mode.
+    //   \x1b[3J  clear scrollback (xterm/Windows Terminal extension)
+    //   \x1b[2J  clear visible screen
+    //   \x1b[H   cursor to top-left
+    process.stdout.write('\x1b[3J\x1b[2J\x1b[H');
+    // Nudge PowerShell to redraw its prompt at the now-empty top.
     ptyProcess.write('\r');
   }
 }
